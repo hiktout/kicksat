@@ -126,7 +126,8 @@ void sprite_correlator_cf::cc430_modulator(int* prnBits, gr_complex* baseBand)
 	
 	for(int k = 0; k < 640; k++)
 	{
-		baseBand[k] = iBB[k]*cos(M_PI/2*k) + 1i*qBB[k]*sin(M_PI/2*k);
+		baseBand[k].real( iBB[k]*cos(M_PI/2*k) );
+		baseBand[k].imag( qBB[k]*sin(M_PI/2*k) );
 	}
 }
 

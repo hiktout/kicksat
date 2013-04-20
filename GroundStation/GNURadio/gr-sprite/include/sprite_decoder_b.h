@@ -55,7 +55,7 @@ class SPRITE_API sprite_decoder_b : public gr_sync_block
 	    gr_vector_void_star &output_items);
 };
 
-char sprite_decoder_b::m_bits[] = {0b00000001, 0b00000010, 0b00000100, 0b00001000, 0b00010000, 0b00100000, 0b01000000, 0b10000000};
+char sprite_decoder_b::m_bits[] = {1, 1 << 1, 1 << 2, 1 << 3, 1 << 4, 1 << 5, 1 << 6, 1 << 7};
 
 //Parity check matrix goes here
 /*
