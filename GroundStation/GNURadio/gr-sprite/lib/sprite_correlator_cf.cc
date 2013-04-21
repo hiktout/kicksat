@@ -22,6 +22,11 @@
 #include "config.h"
 #endif
 
+// to use M_PI with MSVC
+#ifdef WIN32
+#define _USE_MATH_DEFINES
+#endif
+
 #include <gr_io_signature.h>
 #include <sprite_correlator_cf.h>
 #include <cmath>
