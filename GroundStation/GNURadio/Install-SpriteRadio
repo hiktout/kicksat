@@ -5,7 +5,7 @@
 
 # Install prerequisite packages
 #
-sudo apt-get install gnuradio gnuradio-dev cmake git libboost-all-dev libusb-1.0-0 libusb-1.0-0-dev libfftw3-dev swig python-numpy
+sudo apt-get install build-essential gnuradio gnuradio-dev cmake git libboost-all-dev libusb-1.0-0 libusb-1.0-0-dev libfftw3-dev swig python-numpy
 
 # Make a directory to clone all source code into
 #
