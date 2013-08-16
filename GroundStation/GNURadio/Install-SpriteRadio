@@ -2,6 +2,9 @@
 #
 # Script to install GNURadio and dependencies for Sprite receiver on Ubuntu-based systems
 
+# Ensure we have universe, and package lists are up-to-date
+#
+sudo apt-get update
 
 # Install prerequisite packages
 #
