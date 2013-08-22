@@ -22,11 +22,6 @@
 #include "config.h"
 #endif
 
-// to use M_PI with MSVC
-#ifdef WIN32
-#define _USE_MATH_DEFINES
-#endif
-
 #include <gr_io_signature.h>
 #include <sprite_correlator_cf.h>
 #include <cmath>
@@ -131,8 +126,7 @@ void sprite_correlator_cf::cc430_modulator(int* prnBits, gr_complex* baseBand)
 	
 	for(int k = 0; k < 640; k++)
 	{
-		baseBand[k].real( iBB[k]*cos(M_PI/2*k) );
-		baseBand[k].imag( qBB[k]*sin(M_PI/2*k) );
+		baseBand[k] = iBB[k]*cos(M_PI/2*k) + 1i*qBB[k]*sin(M_PI/2*k);
 	}
 }
 

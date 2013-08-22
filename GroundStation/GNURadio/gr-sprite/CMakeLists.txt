@@ -41,10 +41,6 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT WIN32)
     add_definitions(-fvisibility=hidden)
 endif()
 
-if(MSVC AND WIN32)
-    add_definitions(-Dgnuradio_sprite_EXPORTS)
-endif()
-
 ########################################################################
 # Find boost
 ########################################################################
