@@ -2,7 +2,7 @@
 #
 # Script to install GNURadio and dependencies for Sprite receiver on Ubuntu-based systems
 
-# Ensure we have universe, and package lists are up-to-date
+# Ensure package lists are up-to-date
 #
 sudo apt-get update
 
@@ -11,34 +11,50 @@ sudo apt-get update
 sudo apt-get install build-essential gnuradio gnuradio-dev cmake git libboost-all-dev libusb-1.0-0 libusb-1.0-0-dev libfftw3-dev swig python-numpy
 
 # Make a directory to clone all source code into
+# No error if already exists
 #
-mkdir ~/SpriteRadioSrc
+mkdir -p ~/SpriteRadioSrc
 
 # Install RTL-SDR Driver
 #
-cd ~/SpriteRadioSrc && git clone --progress git://git.osmocom.org/rtl-sdr.git && cd rtl-sdr && mkdir build && cd build && cmake .. -DINSTALL_UDEV_RULES=ON && make && sudo make install
+echo '>>>>>>> Installing RTL-SDR Driver'
+cd ~/SpriteRadioSrc
+if [ ! -d rtl-sdr ]; then
+	git clone --progress git://git.osmocom.org/rtl-sdr.git
+fi
+cd rtl-sdr && mkdir -p build && cd build && cmake .. -DINSTALL_UDEV_RULES=ON && make && sudo make install
 
 
 # Install RTL-SDR GNURadio Block
 #
-cd ~/SpriteRadioSrc && git clone --progress git://git.osmocom.org/gr-osmosdr && cd gr-osmosdr && git checkout gr3.6 && mkdir build && cd build && cmake .. && make && sudo make install
+echo '>>>>>>> Installing RTL-SDR GNURadio Block'
+cd ~/SpriteRadioSrc
+if [ ! -d gr-osmosdr ]; then
+	git clone --progress git://git.osmocom.org/gr-osmosdr
+fi
+cd gr-osmosdr && git pull && git checkout gr3.6 && mkdir -p build && cd build && cmake .. && make && sudo make install
 
 
 # Install Sprite GNURadio Blocks
 #
-cd ~/SpriteRadioSrc && git clone --progress git://github.com/zacinaction/kicksat && cd kicksat/GroundStation/GNURadio/gr-sprite && mkdir build && cd build && cmake .. && make && sudo make install && sudo ldconfig
+echo '>>>>>>> Installing Sprite GNURadio Blocks'
+cd ~/SpriteRadioSrc
+if [ ! -d kicksat ]; then
+	git clone --progress git://github.com/zacinaction/kicksat
+fi
+cd kicksat/GroundStation/GNURadio/gr-sprite && git pull && mkdir -p build && cd build && cmake .. && make && sudo make install && sudo ldconfig
 
 
 # Add GNURadio config file telling GRC where to look for new blocks 
+# Only add line if it is not already in the config file
 # 
+echo '>>>>>>> Updating GNURadio Configuration'
 if [ ! -d ~/.gnuradio ]; then
 	mkdir ~/.gnuradio
 fi
-echo -e "[grc]\nlocal_blocks_path=/usr/local/share/gnuradio/grc/blocks" >> ~/.gnuradio/config.conf
+BLOCK_CONFIG="local_blocks_path=/usr/local/share/gnuradio/grc/blocks" 
+grep -q $BLOCK_CONFIG ~/.gnuradio/config.conf || (echo -e '[grc]\n'$BLOCK_CONFIG >> ~/.gnuradio/config.conf)
 
-# Delete downloaded files
-#
-rm -Rf ~/SpriteRadioSrc
-
+echo '>>>>>>> Exiting'
 exit 0
 
