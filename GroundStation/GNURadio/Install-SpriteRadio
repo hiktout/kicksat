@@ -53,7 +53,7 @@ if [ ! -d ~/.gnuradio ]; then
 	mkdir ~/.gnuradio
 fi
 BLOCK_CONFIG="local_blocks_path=/usr/local/share/gnuradio/grc/blocks" 
-grep -q $BLOCK_CONFIG ~/.gnuradio/config.conf || (echo -e '[grc]\n'$BLOCK_CONFIG >> ~/.gnuradio/config.conf)
+grep -qs $BLOCK_CONFIG ~/.gnuradio/config.conf || (echo -e '[grc]\n'$BLOCK_CONFIG >> ~/.gnuradio/config.conf)
 
 echo '>>>>>>> Exiting'
 exit 0
